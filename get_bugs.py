@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-'get bug list from www.wooyun.org'
+'''get bug list from www.wooyun.org'''
 
-__author__ = 'deyoung_shen@msn.cn'
+__author__ = 'shengdexiang@gmail.com'
 
 import urllib3
 from bs4 import BeautifulSoup
@@ -26,8 +26,11 @@ start_page_num = 1
 end_page_num = None
 total_bugs_num = None
 
-# get bugs number and bugs page number
 def get_num(url):
+	'''
+	get total bugs number and page number
+	'''
+
 	global end_page_num
 	global total_bugs_num
 
@@ -52,13 +55,9 @@ def get_bug():
 
 # store data to mysql
 def store_data(sql):
-	global HOST
-	global USER
-	global PASSWD
-	global DB
-	global PORT
-	global CHARSET
-
+	'''
+	store bug information to mysql
+	'''
 	#print(sql)
 	conn = pymysql.connect(host = HOST, user = USER, passwd = PASSWD, db = DB,
 		port = PORT, charset = CHARSET)
@@ -75,9 +74,11 @@ def store_data(sql):
 		cur.close()
 		conn.close()
 
-# get bugs list from wooyun.org
 def get_bugs():
-	# get bugs one by one page
+	'''
+	get bugs from www.wooyun.org, one page by one page
+	'''
+	
 	for i in range(start_page_num, end_page_num + 1):
 		url = base_url + '/bugs/page/' + str(i)
 		http = urllib3.PoolManager()
